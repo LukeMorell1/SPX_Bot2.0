@@ -16,8 +16,7 @@ client.commands = new Map(); //key-value pair for command list
 //Creates a path to the commands directory
 const commandsPath = path.join(process.cwd(), "./Commands");
 //Returns an array of all file names in the directory
-const commandFiles = fs
-  .readdirSync(commandsPath)
+const commandFiles = fs.readdirSync(commandsPath)
   .filter((file) => file.endsWith(".js"));
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);

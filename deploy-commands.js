@@ -1,16 +1,23 @@
 import { REST, Routes } from "discord.js";
-import { clientId, guilds, token } from "./auth.json";
 import fs from 'node:fs';
 import path from 'node:path';
 
+const data = fs.readFileSync("./auth.json");
+const jsondata = JSON.parse(data);
+const clientId = jsondata.clientId
+const token = jsondata.token;
+const guilds = jsondata.guilds;
+
 const commands = [];
 // Grab all the command files from the commands directory that end in .js
-const commandsPath = path.join(__dirname, 'commands')
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+const commandsPath = path.join(process.cwd(), "./Commands");
+const commandFiles = fs.readdirSync(commandsPath)
+  .filter(file => file.endsWith('.js'));
 // Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
-	const command = require(filePath);
+	const module = await import(filePath);
+    const command = module.default;
 	if ('data' in command && 'execute' in command) {
 		commands.push(command.data.toJSON());
 	} else {
