@@ -8,9 +8,9 @@ export default {
   async execute(interaction) {
     let response = "";
     try {
-      const { perChange, marketStatus } = await getPrice();
+      const { perChange, status } = await getPrice();
       response += "AM COMMANDS: \n";
-      if (marketStatus === "Closed") {
+      if (status === "Closed") {
         response += "Market is Closed Today :(";
       } else {
         response += "Percent change since last close: " + perChange + "%";

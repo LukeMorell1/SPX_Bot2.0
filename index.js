@@ -63,9 +63,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-cron.schedule("55 15 * * 1-5", async () => {
+cron.schedule("15 55 * * 1-5", async () => {
   const { status } = await getPrice();
-  if (status == "Open") {
+  console.log(status);
+  if (status === "Open") {
     for (const scheduleGuild of guilds) {
       const guild = client.guilds.cache.get(scheduleGuild.id);
       if (guild) {
@@ -114,7 +115,7 @@ cron.schedule("55 15 * * 1-5", async () => {
 
 cron.schedule("35 9 * * 1-5", async () => {
   const { status } = await getPrice();
-  if (status == "Open") {
+  if (status === "Open") {
     for (const scheduleGuild of guilds) {
       const guild = client.guilds.cache.get(scheduleGuild.id);
       if (guild) {
