@@ -8,22 +8,18 @@ export default {
   async execute(interaction) {
     let response = "";
     try {
-      const { perChange, status } = await getPrice();
+      const { perChange } = await getPrice();
       response += "AM COMMANDS: \n";
-      if (status === "Closed") {
-        response += "Market is Closed Today :(";
+      response += "Percent change since last close: " + perChange + "%";
+      if (perChange < 0.75) {
+        response += "\nPlace 0DTE AM Calls";
+        response += "\nPlace 0DTE AM Puts";
+      } else if (perChange < 2.0) {
+        response += "\nDon't Place 0DTE AM Calls";
+        response += "\nPlace 0DTE AM Puts";
       } else {
-        response += "Percent change since last close: " + perChange + "%";
-        if (perChange < 0.75) {
-          response += "\nPlace 0DTE AM Calls";
-          response += "\nPlace 0DTE AM Puts";
-        } else if (perChange < 2.0) {
-          response += "\nDon't Place 0DTE AM Calls";
-          response += "\nPlace 0DTE AM Puts";
-        } else {
-          response += "\nDon't Place 0DTE AM Calls";
-          response += "\nDon't Place 0DTE AM Puts";
-        }
+        response += "\nDon't Place 0DTE AM Calls";
+        response += "\nDon't Place 0DTE AM Puts";
       }
       await interaction.reply(response);
     } catch (err) {
